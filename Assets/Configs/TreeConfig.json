@@ -1,0 +1,38 @@
+﻿{
+  "0": {
+    "name": "Cây táo",
+    "totalStage": 5,
+    "growTimePerStage": 3,
+    "itemDrops": [
+      {
+        "itemID": 0,
+        "numOfItem": 2
+      }
+    ],
+    "totalLiveTime": 10
+  },
+  "1": {
+    "name": "Cây thông",
+    "totalStage": 4,
+    "growTimePerStage": 3,
+    "itemDrops": [
+      {
+        "itemID": 1,
+        "numOfItem": 2
+      }
+    ],
+    "totalLiveTime": 10
+  },
+  "2": {
+    "name": "Cây bạch dương",
+    "totalStage": 4,
+    "growTimePerStage": 3,
+    "itemDrops": [
+      {
+        "itemID": 2,
+        "numOfItem": 2
+      }
+    ],
+    "totalLiveTime": 10
+  }
+}

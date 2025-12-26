@@ -14,7 +14,7 @@ public class GameResourceManager : SingletonPattern<GameResourceManager>
     }
     IEnumerator LoadMapData()
     {
-        yield return WorldManager.Instance.LoadFromFile(Consts.Paths.map_walkabledate);
+        yield return WorldManager.Instance.LoadFromFile(Consts.DataPaths.map_walkabledata);
         Debug.Log($"Dang tai tai nguyen, da hoan thanh {currentStep}/{totalSteps}");
         UpdateCurrentStep();
     }

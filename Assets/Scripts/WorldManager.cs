@@ -78,12 +78,18 @@ public class WorldManager : SingletonPattern<WorldManager>
         openSet.Add(startNode);
         allNodes[start] = startNode;
 
+        AStarNode bestNode = startNode; // node gần target nhất
+
         while (openSet.Count > 0)
         {
             AStarNode current = GetLowestFCostNode(openSet);
 
             openSet.Remove(current);
             closedSet.Add(current.pos);
+
+            // Cập nhật bestNode nếu gần target hơn
+            if (current.hCost < bestNode.hCost)
+                bestNode = current;
 
             if (current.pos == target)
                 return RetracePath(current);
@@ -116,8 +122,10 @@ public class WorldManager : SingletonPattern<WorldManager>
             }
         }
 
-        return null;
+        // Nếu không tìm được đường tới target, trả về đường tới node gần target nhất
+        return RetracePath(bestNode);
     }
+
     private AStarNode GetLowestFCostNode(List<AStarNode> nodes)
     {
         AStarNode best = nodes[0];

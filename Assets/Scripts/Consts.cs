@@ -3,8 +3,13 @@ using UnityEngine;
 
 public static class Consts
 {
-    public static class Paths
+    public static class DataPaths
     {
-        public static readonly string map_walkabledate = Path.Combine( Application.persistentDataPath,"map_walkable.bin");
+        public static readonly string map_walkabledata = Path.Combine( Application.persistentDataPath,"map_walkable.bin");
+        public static readonly string tree_data = Path.Combine(Application.persistentDataPath, "tree_data.bin");
+    }
+    public static class ConfigAdress
+    {
+        public static readonly string tree_config_key = ""; 
     }
 }

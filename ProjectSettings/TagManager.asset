@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - ObjectFoot
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - UI
   - Entity
   - Object
-  - 
+  - SFX
   - 
   - 
   - 
@@ -46,6 +47,12 @@ TagManager:
     locked: 0
   - name: Entity
     uniqueID: 2338493435
+    locked: 0
+  - name: Object
+    uniqueID: 211910709
+    locked: 0
+  - name: SFX
+    uniqueID: 2032368867
     locked: 0
   m_RenderingLayers:
   - Default

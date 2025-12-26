@@ -1,0 +1,56 @@
+﻿{
+  "0": {
+    "name": "Cây bắp cải",
+    "produceId": 0,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "1": {
+    "name": "Cây cà rốt",
+    "produceId": 1,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "2": {
+    "name": "Cây cà rốt cao cấp",
+    "produceId": 2,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "3": {
+    "name": "Cây dưa leo",
+    "produceId": 3,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "4": {
+    "name": "Cây cà tím",
+    "produceId": 4,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "5": {
+    "name": "Cây khoai tây",
+    "produceId": 5,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "6": {
+    "name": "Cây bí ngô",
+    "produceId": 6,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "7": {
+    "name": "Cây cà chua",
+    "produceId": 7,
+    "totalStage": 4,
+    "stageLivetime": 3
+  },
+  "8": {
+    "name": "Cây bí xanh Ý",
+    "produceId": 8,
+    "totalStage": 4,
+    "stageLivetime": 3
+  }
+}

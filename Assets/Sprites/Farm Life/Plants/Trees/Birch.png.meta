@@ -122,11 +122,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 6
-        y: 0
+        y: 1
         width: 40
-        height: 54
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 53
+      alignment: 9
+      pivot: {x: 0.41, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,8 +147,8 @@ TextureImporter:
         y: 0
         width: 72
         height: 115
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.55, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -169,8 +169,8 @@ TextureImporter:
         y: 0
         width: 86
         height: 173
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -191,8 +191,8 @@ TextureImporter:
         y: 0
         width: 80
         height: 168
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -213,8 +213,8 @@ TextureImporter:
         y: 0
         width: 80
         height: 169
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -235,8 +235,8 @@ TextureImporter:
         y: 0
         width: 10
         height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -257,8 +257,8 @@ TextureImporter:
         y: 0
         width: 17
         height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -275,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ae294e743a54e3a4988b684e68ff0b7d
     internalID: 0
     vertices: []
     indices: 

@@ -12,7 +12,7 @@ public class TilemapBinaryExporter : EditorWindow
     private const byte WALKABLE = 1;
     private const byte BLOCKED = 0;
 
-    [MenuItem("Tools/Map/Export Walkable Map (Binary)")]
+    [MenuItem("Tools/Map/MapMoveableMergeTilemap (Binary)")]
     public static void Open()
     {
         GetWindow<TilemapBinaryExporter>("Map Binary Exporter");

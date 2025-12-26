@@ -51,11 +51,6 @@ public class Character : MonoBehaviour
 
         Vector3Int cellPos = WorldManager.Instance.WorldPosToCellPos(mouseWorldPos);
         Debug.Log($"Clicked grid Cell: {cellPos}");
-        if (!WorldManager.Instance.IsWalkable(cellPos.x, cellPos.y))
-        {
-            Debug.Log($"O+{cellPos} khong the di toi!");
-            return;
-        }
         MoveToCell(cellPos);
 
     }
