@@ -133,7 +133,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Apple tree_0
+      name: appletree_stage_1
       rect:
         serializedVersion: 2
         x: 5
@@ -155,7 +155,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_1
+      name: appletree_stage2
       rect:
         serializedVersion: 2
         x: 47
@@ -177,11 +177,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_2
+      name: redappletree_stage_3
       rect:
         serializedVersion: 2
-        x: 136
-        y: 319
+        x: 137
+        y: 320
         width: 115
         height: 160
       alignment: 9
@@ -199,7 +199,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_3
+      name: yellowappletree_stage3
       rect:
         serializedVersion: 2
         x: 256
@@ -221,7 +221,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_4
+      name: greenappletree_stage3
       rect:
         serializedVersion: 2
         x: 384
@@ -243,7 +243,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_5
+      name: dead_appletree_var1
       rect:
         serializedVersion: 2
         x: 14
@@ -265,7 +265,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_6
+      name: dead_appletree_var2
       rect:
         serializedVersion: 2
         x: 117
@@ -331,7 +331,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_9
+      name: redappletree_stage_4
       rect:
         serializedVersion: 2
         x: 0
@@ -353,7 +353,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_10
+      name: yellowappletree_stage_4
       rect:
         serializedVersion: 2
         x: 128
@@ -375,7 +375,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Apple tree_11
+      name: greenappletree_stage_4
       rect:
         serializedVersion: 2
         x: 271
@@ -410,18 +410,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Apple tree_0: 4071540420791877840
-      Apple tree_1: 7684884187054276554
-      Apple tree_10: -8244908270308186599
-      Apple tree_11: 5177080065183382458
-      Apple tree_2: 3014037574009398538
-      Apple tree_3: -3921912716128286509
-      Apple tree_4: 2653490466594501825
-      Apple tree_5: -1806821208694619460
-      Apple tree_6: 6410943527268949680
       Apple tree_7: 7733078744178717149
       Apple tree_8: 4717585164675031325
-      Apple tree_9: -6594918029764745455
+      appletree_stage2: 7684884187054276554
+      appletree_stage_1: 4071540420791877840
+      dead_appletree_var1: -1806821208694619460
+      dead_appletree_var2: 6410943527268949680
+      greenappletree_stage3: 2653490466594501825
+      greenappletree_stage_4: 5177080065183382458
+      redappletree_stage_3: 3014037574009398538
+      redappletree_stage_4: -6594918029764745455
+      yellowappletree_stage3: -3921912716128286509
+      yellowappletree_stage_4: -8244908270308186599
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

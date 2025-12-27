@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class WorldManager : SingletonPattern<WorldManager>
 {
+    Dictionary<Vector2, int> mapMatrix = new();
     [SerializeField] Tilemap worldMap;
     private int width;
     private int height;
@@ -19,7 +20,7 @@ public class WorldManager : SingletonPattern<WorldManager>
     /// Đọc dữ liệu map từ file .bin
     /// </summary>
     /// <param name="fullPath">Đường dẫn đầy đủ tới file</param>
-    public IEnumerator LoadFromFile(string fullPath)
+    public IEnumerator LoadMapWalkableData(string fullPath)
     {
         if (!File.Exists(fullPath))
         {
@@ -42,7 +43,59 @@ public class WorldManager : SingletonPattern<WorldManager>
         Debug.Log($"Size      : {width} x {height}");
         Debug.Log($"Offset    : ({offsetX}, {offsetY})");
     }
+    public int GetTileID(Vector2 tilemappos)
+    {
+        if (mapMatrix.ContainsKey(tilemappos))
+        {
+            return mapMatrix[tilemappos];
+        }
+        else return -1;
+    }
+    public IEnumerator LoadWorldMatrix(string fullPath)
+    {
+        mapMatrix.Clear();
 
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogError($"World matrix file not found: {fullPath}");
+            yield break;
+        }
+
+        using (BinaryReader reader = new BinaryReader(File.OpenRead(fullPath)))
+        {
+            width = reader.ReadInt32();
+            height = reader.ReadInt32();
+
+            // Dùng bounds tilemap hiện tại để align grid
+            worldMap.CompressBounds();
+            BoundsInt bounds = worldMap.cellBounds;
+
+            int baseX = bounds.xMin;
+            int baseY = bounds.yMin;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int objectId = reader.ReadInt32();
+
+                    // Bỏ qua ground mặc định nếu muốn
+                    //if (objectId == 0)
+                    //    continue;
+
+                    int gridX = baseX + x;
+                    int gridY = baseY + y;
+
+                    mapMatrix[new Vector2(gridX, gridY)] = objectId;
+                }
+            }
+        }
+
+        Debug.Log("=== WORLD MATRIX LOADED ===");
+        Debug.Log($"Path   : {fullPath}");
+        Debug.Log($"Size   : {width} x {height}");
+        Debug.Log($"Cells  : {mapMatrix.Count}");
+    }
     /// <summary>
     /// Kiểm tra 1 cell có đi được không (tọa độ tile)
     /// </summary>
