@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: SpriteAtlats
   m_GUID: 616313731ff8d8743899f77d79bfe40f
-  m_SerializeEntries:
-  - m_GUID: 9fcaf132fa05552409b4426bbd10c21f
-    m_Address: Plants.spriteatlasv2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8522954f73e1c0340a21f92c4747a0e7, type: 2}
   m_SchemaSet:

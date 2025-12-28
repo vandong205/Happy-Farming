@@ -18,9 +18,13 @@ public class Character : MonoBehaviour
     [SerializeField]  float stopDistance = 0.05f;
     [SerializeField] private float moveSpeed;
     [SerializeField] Animator animator;
+
     private bool IsMoving = false;
     private InputAction moveAction;
+    private Queue<Vector3Int> cellsActionQueue  =  new();
+
     private Coroutine moveRoutine;
+    private ToolNames selectedTool = ToolNames.Axe;
     public CharacterState state { get; private set; }
     public float speed {  get; private set; }
     #endregion
@@ -50,8 +54,9 @@ public class Character : MonoBehaviour
         mouseWorldPos.z = 0f;
 
         Vector3Int cellPos = WorldManager.Instance.WorldPosToCellPos(mouseWorldPos);
+        cellsActionQueue.Enqueue(cellPos);
         Debug.Log($"Clicked grid Cell: {cellPos}");
-        MoveToCell(cellPos);
+            MoveToCell(cellPos);
 
     }
     private void MoveToCell(Vector3Int targetCell)
@@ -101,6 +106,40 @@ public class Character : MonoBehaviour
         }
         IsMoving = false;
         animator.SetBool("IsMoving", IsMoving);
+        if (TryToDoAction()) DoAction();
+
+    }
+    private bool TryToDoAction()
+    {
+        if (cellsActionQueue.Count == 0) return false;
+        Vector3Int cellpos = cellsActionQueue.Dequeue();
+        Vector2 cellpos2d = new Vector2(cellpos.x, cellpos.y);
+        int cellid = WorldManager.Instance.GetTileID(cellpos2d);
+        if (cellid == -1) return false;
+        if (!GameDatabase.Instance.ToolDB.CheckToolCanUseOn(selectedTool, cellid)) return false;
+        return true;
+    }
+    private void DoAction()
+    {
+        state = CharacterState.Busy;
+        switch (selectedTool) {
+            case ToolNames.Scythe:
+                DoScythe();
+                break;
+            case ToolNames.Axe:
+                DoAxe();
+                break;
+        }
+    }
+    private void DoAxe()
+    {
+        animator.SetTrigger("UseAxe");
+        Debug.Log("Dang chat cay");
+    }
+    private void DoScythe()
+    {
+        animator.SetTrigger("UseScythe");
+        //Debug.Log("")
     }
     private void SetMoveDirection(Vector3 from, Vector3 to)
     {
