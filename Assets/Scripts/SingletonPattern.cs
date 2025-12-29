@@ -13,7 +13,7 @@ public class SingletonPattern<T> : MonoBehaviour where T : MonoBehaviour
         }
 
         Instance = this as T;
-        transform.SetParent(null);
-        DontDestroyOnLoad(gameObject);
+        //transform.SetParent(null);
+        //DontDestroyOnLoad(gameObject);
     }
 }

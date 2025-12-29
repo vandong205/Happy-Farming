@@ -5,7 +5,8 @@ public enum ToolNames
 {
     None,
     Scythe,
-    Axe
+    Axe,
+    WaterCan
 }
 [CreateAssetMenu(
     menuName = "Scriptable Objects/Tool"

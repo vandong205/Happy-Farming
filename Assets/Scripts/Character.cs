@@ -24,7 +24,7 @@ public class Character : MonoBehaviour
     private Queue<Vector3Int> cellsActionQueue  =  new();
 
     private Coroutine moveRoutine;
-    private ToolNames selectedTool = ToolNames.Axe;
+    private ToolNames selectedTool = ToolNames.Scythe;
     public CharacterState state { get; private set; }
     public float speed {  get; private set; }
     #endregion
@@ -49,12 +49,11 @@ public class Character : MonoBehaviour
     private void Move(InputAction.CallbackContext ctx)
     {
         if (state != CharacterState.Free) return;
+        while(cellsActionQueue.Count > 0) cellsActionQueue.Dequeue();
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
         Vector3 mouseWorldPos = followCamera.ScreenToWorldPoint(mouseScreenPos);
         mouseWorldPos.z = 0f;
-
         Vector3Int cellPos = WorldManager.Instance.WorldPosToCellPos(mouseWorldPos);
-        cellsActionQueue.Enqueue(cellPos);
         Debug.Log($"Clicked grid Cell: {cellPos}");
             MoveToCell(cellPos);
 
@@ -68,14 +67,13 @@ public class Character : MonoBehaviour
 
         List<Vector3Int> path =
             WorldManager.Instance.FindPath(currentCell, targetCell);
-
         if (path == null || path.Count == 0)
         {
             Debug.Log("Khong tim thay duong di");
             return;
         }
-           
-
+        // Chi them hanh dong neu den duoc cell do 
+        if (path[path.Count - 1] == targetCell) cellsActionQueue.Enqueue(targetCell);
         if (moveRoutine != null)
             StopCoroutine(moveRoutine);
 
@@ -111,12 +109,14 @@ public class Character : MonoBehaviour
     }
     private bool TryToDoAction()
     {
+       
         if (cellsActionQueue.Count == 0) return false;
-        Vector3Int cellpos = cellsActionQueue.Dequeue();
+        Vector3Int cellpos = cellsActionQueue.Peek();
         Vector2 cellpos2d = new Vector2(cellpos.x, cellpos.y);
         int cellid = WorldManager.Instance.GetTileID(cellpos2d);
         if (cellid == -1) return false;
         if (!GameDatabase.Instance.ToolDB.CheckToolCanUseOn(selectedTool, cellid)) return false;
+        NotificationManager.Instance.ShowPopUpNotify($"Dang thuchien hanh dong voi cong cu {selectedTool}", NotifyType.Info);
         return true;
     }
     private void DoAction()
@@ -129,6 +129,9 @@ public class Character : MonoBehaviour
             case ToolNames.Axe:
                 DoAxe();
                 break;
+            case ToolNames.WaterCan:
+                DoWatering();
+                break;
         }
     }
     private void DoAxe()
@@ -139,7 +142,19 @@ public class Character : MonoBehaviour
     private void DoScythe()
     {
         animator.SetTrigger("UseScythe");
-        //Debug.Log("")
+        Vector3Int cellpos = cellsActionQueue.Dequeue();
+        ParticleManager.Instance.PlayParticle(Particle.grass, WorldManager.Instance.CellPosToWorldCenter(cellpos));
+        WorldManager.Instance.SetTile(cellpos, 1);
+        selectedTool = ToolNames.WaterCan;
+        state = CharacterState.Free;
+    }
+    private void DoWatering()
+    {
+        animator.SetTrigger("UseWaterCan");
+        Vector3Int cellpos = cellsActionQueue.Dequeue();
+        WorldManager.Instance.SetTile(cellpos, 2);
+        
+        state = CharacterState.Free;
     }
     private void SetMoveDirection(Vector3 from, Vector3 to)
     {

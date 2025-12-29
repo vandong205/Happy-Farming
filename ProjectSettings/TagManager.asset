@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Entity
   - Object
-  - SFX
+  - VFX
   - 
   - 
   - 
@@ -51,7 +51,7 @@ TagManager:
   - name: Object
     uniqueID: 211910709
     locked: 0
-  - name: SFX
+  - name: VFX
     uniqueID: 2032368867
     locked: 0
   m_RenderingLayers:

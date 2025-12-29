@@ -232,6 +232,12 @@ public class WorldManager : SingletonPattern<WorldManager>
     {
         return worldMap.GetCellCenterWorld(cellPos);
     }
-
+    public void SetTile(Vector3Int pos,int id)
+    {
+        Vector2 cellPos = new Vector2(pos.x, pos.y);
+        if (GetTileID(cellPos) == -1) return; 
+        worldMap.SetTile(pos,GameDatabase.Instance.TileDB.Get(id));
+        mapMatrix[cellPos] = id;
+    }
 
 }
