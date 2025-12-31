@@ -6,14 +6,19 @@ using System.Collections.Generic;
 
 public class WorldManager : SingletonPattern<WorldManager>
 {
-    Dictionary<Vector2, int> mapMatrix = new();
+    Dictionary<Vector2, long> mapMatrix = new();
+    Dictionary<Vector2, int> mapBaseMatrix = new();
+    Dictionary<Vector2, int> mapGroundMatrix = new();
     [SerializeField] Tilemap worldMap;
     private int width;
     private int height;
     private int offsetX;
     private int offsetY;
     private byte[] tiles;
-
+    /// <summary>
+    /// Global Object ID
+    /// </summary>
+    private long _nextID = 0;
     private const byte WALKABLE = 1;
 
     /// <summary>
@@ -43,7 +48,7 @@ public class WorldManager : SingletonPattern<WorldManager>
         Debug.Log($"Size      : {width} x {height}");
         Debug.Log($"Offset    : ({offsetX}, {offsetY})");
     }
-    public int GetTileID(Vector2 tilemappos)
+    public long GetTileID(Vector2 tilemappos)
     {
         if (mapMatrix.ContainsKey(tilemappos))
         {
@@ -51,9 +56,78 @@ public class WorldManager : SingletonPattern<WorldManager>
         }
         else return -1;
     }
+    public int GetTileBaseId(Vector2 tilemappos)
+    {
+        if (mapBaseMatrix.ContainsKey(tilemappos))
+        {
+            return mapBaseMatrix[tilemappos];
+        }
+        else return -1;
+    }
+    public int GetTileGroundId(Vector2 tilemappos)
+    {
+        if (mapGroundMatrix.ContainsKey(tilemappos))
+        {
+            return mapGroundMatrix[tilemappos];
+        }
+        else return -1;
+    }
+    public int GetGroundTileId(Vector2 tilemappos)
+    {
+        if (mapGroundMatrix.ContainsKey(tilemappos))
+        {
+            return mapGroundMatrix[tilemappos];
+        }
+        else return -1;
+    }
     public IEnumerator LoadWorldMatrix(string fullPath)
     {
         mapMatrix.Clear();
+
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogError($"World matrix file not found: {fullPath}");
+            yield break;
+        }
+
+        using (BinaryReader reader = new BinaryReader(File.OpenRead(fullPath)))
+        {
+            width = reader.ReadInt32();
+            height = reader.ReadInt32();
+
+            // Dùng bounds tilemap hiện tại để align grid
+            worldMap.CompressBounds();
+            BoundsInt bounds = worldMap.cellBounds;
+
+            int baseX = bounds.xMin;
+            int baseY = bounds.yMin;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    long objectId = reader.ReadInt64();
+
+                    // Bỏ qua ground mặc định nếu muốn
+                    //if (objectId == 0)
+                    //    continue;
+
+                    int gridX = baseX + x;
+                    int gridY = baseY + y;
+
+                    mapMatrix[new Vector2(gridX, gridY)] = objectId;
+                }
+            }
+        }
+
+        Debug.Log("=== WORLD MATRIX LOADED ===");
+        Debug.Log($"Path   : {fullPath}");
+        Debug.Log($"Size   : {width} x {height}");
+        Debug.Log($"Cells  : {mapMatrix.Count}");
+    }
+    public IEnumerator LoadWorldBaseMatrix(string fullPath)
+    {
+        mapBaseMatrix.Clear();
 
         if (!File.Exists(fullPath))
         {
@@ -86,15 +160,72 @@ public class WorldManager : SingletonPattern<WorldManager>
                     int gridX = baseX + x;
                     int gridY = baseY + y;
 
-                    mapMatrix[new Vector2(gridX, gridY)] = objectId;
+                    mapBaseMatrix[new Vector2(gridX, gridY)] = objectId;
                 }
             }
         }
 
-        Debug.Log("=== WORLD MATRIX LOADED ===");
+        Debug.Log("=== WORLD BASEMATRIX LOADED ===");
         Debug.Log($"Path   : {fullPath}");
         Debug.Log($"Size   : {width} x {height}");
-        Debug.Log($"Cells  : {mapMatrix.Count}");
+        Debug.Log($"Cells  : {mapBaseMatrix.Count}");
+    }
+    public IEnumerator LoadWorldGroundMatrix(string fullPath)
+    {
+        mapGroundMatrix.Clear();
+
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogError($"World matrix file not found: {fullPath}");
+            yield break;
+        }
+
+        using (BinaryReader reader = new BinaryReader(File.OpenRead(fullPath)))
+        {
+            width = reader.ReadInt32();
+            height = reader.ReadInt32();
+
+            // Dùng bounds tilemap hiện tại để align grid
+            worldMap.CompressBounds();
+            BoundsInt bounds = worldMap.cellBounds;
+
+            int baseX = bounds.xMin;
+            int baseY = bounds.yMin;
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int objectId = reader.ReadInt32();
+
+                    // Bỏ qua ground mặc định nếu muốn
+                    //if (objectId == 0)
+                    //    continue;
+
+                    int gridX = baseX + x;
+                    int gridY = baseY + y;
+
+                    mapGroundMatrix[new Vector2(gridX, gridY)] = objectId;
+                }
+            }
+        }
+
+        Debug.Log("=== WORLD BASEMATRIX LOADED ===");
+        Debug.Log($"Path   : {fullPath}");
+        Debug.Log($"Size   : {width} x {height}");
+        Debug.Log($"Cells  : {mapGroundMatrix.Count}");
+    }
+    public void setNextGlobalId(long nextId)
+    {
+        _nextID = nextId;
+    }
+    public long GenarateGlobalId()
+    {
+        return _nextID++;
+    }
+    public long getNextId()
+    {
+        return _nextID;
     }
     /// <summary>
     /// Kiểm tra 1 cell có đi được không (tọa độ tile)
@@ -232,12 +363,28 @@ public class WorldManager : SingletonPattern<WorldManager>
     {
         return worldMap.GetCellCenterWorld(cellPos);
     }
-    public void SetTile(Vector3Int pos,int id)
+    public void SetMatrixTile(Vector3Int pos,long id,bool setUseTile = false)
     {
         Vector2 cellPos = new Vector2(pos.x, pos.y);
-        if (GetTileID(cellPos) == -1) return; 
-        worldMap.SetTile(pos,GameDatabase.Instance.TileDB.Get(id));
+        if(setUseTile)
+        {
+            worldMap.SetTile(pos, GameDatabase.Instance.TileDB.Get(id));
+        }
         mapMatrix[cellPos] = id;
+    }
+    public void SetBaseMatrixTile(Vector3Int pos, int id)
+    {
+        Vector2 cellPos = new Vector2(pos.x, pos.y);
+        mapBaseMatrix[cellPos] =id;
+    }
+    public void SetBaseGroundTile(Vector3Int pos, int id)
+    {
+        Vector2 cellPos = new Vector2(pos.x, pos.y);
+        mapGroundMatrix[cellPos] = id;
+    }
+    public bool HasObjectOn(Vector2 cellppos)
+    {
+        return mapBaseMatrix[cellppos] != -1;
     }
 
 }

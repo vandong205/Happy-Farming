@@ -7,9 +7,9 @@ using UnityEngine;
 )]
 public class ToolDatabase : ScriptableObject
 {
-    [SerializeField] private List<Tool> tools;
+    [SerializeField] private List<ToolData> tools;
 
-    private Dictionary<ToolNames, Tool> toolDict;
+    private Dictionary<ToolNames, ToolData> toolDict;
 
     private void OnEnable()
     {
@@ -18,7 +18,7 @@ public class ToolDatabase : ScriptableObject
 
     private void BuildDictionary()
     {
-        toolDict = new Dictionary<ToolNames, Tool>();
+        toolDict = new Dictionary<ToolNames, ToolData>();
 
         foreach (var tool in tools)
         {
@@ -31,8 +31,8 @@ public class ToolDatabase : ScriptableObject
 
     public bool CheckToolCanUseOn(ToolNames toolName, int id)
     {
+        Debug.Log("Dang check tool" + toolName + "tren" + id);
         if (toolDict == null) BuildDictionary();
-
         return toolDict.TryGetValue(toolName, out var tool)
                && tool.CanUseOn(id);
     }

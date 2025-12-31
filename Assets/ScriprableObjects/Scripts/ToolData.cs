@@ -3,15 +3,15 @@ using UnityEngine;
 
 public enum ToolNames
 {
-    None,
+    Hand,
     Scythe,
     Axe,
     WaterCan
 }
 [CreateAssetMenu(
-    menuName = "Scriptable Objects/Tool"
+    menuName = "Scriptable Objects/ToolData"
 )]
-public class Tool : ScriptableObject
+public class ToolData : ScriptableObject
 {
     public ToolNames Name;
     public List<int> validObjectID = new();

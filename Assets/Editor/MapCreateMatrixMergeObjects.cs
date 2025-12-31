@@ -1,7 +1,6 @@
 ﻿using JsonNet = Newtonsoft.Json.JsonConvert;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -11,25 +10,25 @@ public class TilemapObjectExporterEditor : EditorWindow
     [System.Serializable]
     public class ObjectConfig
     {
-        public Dictionary<int, string> idToName;
+        public Dictionary<long, string> idToName;
     }
 
     [System.Serializable]
     public class ObjectEntry
     {
         public GameObject gameObject;
-        public int objectId;
+        public long objectId;
     }
 
     private Tilemap groundTilemap;
     private TextAsset jsonConfig;
 
-    private Dictionary<int, string> idToName = new Dictionary<int, string>();
+    private Dictionary<long, string> idToName = new Dictionary<long, string>();
     private List<ObjectEntry> objectEntries = new List<ObjectEntry>();
 
-    private int groundId = 0;
+    private long groundId = 0;
 
-    [MenuItem("Tools/Tilemap Object Exporter")]
+    [MenuItem("Tools/Map Matrix Exporter(long)")]
     public static void Open()
     {
         GetWindow<TilemapObjectExporterEditor>("Tilemap Exporter");
@@ -55,7 +54,7 @@ public class TilemapObjectExporterEditor : EditorWindow
                 false
             );
 
-        groundId = EditorGUILayout.IntField("Ground Default ID", groundId);
+        groundId = EditorGUILayout.LongField("Ground Default ID", groundId);
 
         if (GUILayout.Button("Load JSON Config"))
         {
@@ -92,11 +91,12 @@ public class TilemapObjectExporterEditor : EditorWindow
 
         try
         {
-            var rawDict = JsonNet.DeserializeObject<Dictionary<string, string>>(jsonConfig.text);
+            Dictionary<string, string> rawDict =
+                JsonNet.DeserializeObject<Dictionary<string, string>>(jsonConfig.text);
 
             foreach (var kv in rawDict)
             {
-                int id = int.Parse(kv.Key);
+                long id = long.Parse(kv.Key);
                 idToName[id] = kv.Value;
             }
 
@@ -123,10 +123,10 @@ public class TilemapObjectExporterEditor : EditorWindow
 
             if (idToName.Count > 0)
             {
-                List<int> ids = new List<int>(idToName.Keys);
+                List<long> ids = new List<long>(idToName.Keys);
                 List<string> labels = new List<string>();
 
-                foreach (int id in ids)
+                foreach (long id in ids)
                 {
                     labels.Add(id + " - " + idToName[id]);
                 }
@@ -138,7 +138,7 @@ public class TilemapObjectExporterEditor : EditorWindow
             else
             {
                 objectEntries[i].objectId =
-                    EditorGUILayout.IntField(objectEntries[i].objectId);
+                    EditorGUILayout.LongField(objectEntries[i].objectId);
             }
 
             if (GUILayout.Button("X", GUILayout.Width(20)))
@@ -165,7 +165,7 @@ public class TilemapObjectExporterEditor : EditorWindow
         int width = bounds.size.x;
         int height = bounds.size.y;
 
-        int[,] grid = new int[height, width];
+        long[,] grid = new long[height, width];
 
         // Fill ground
         for (int y = 0; y < height; y++)
@@ -198,7 +198,6 @@ public class TilemapObjectExporterEditor : EditorWindow
             grid[y, x] = entry.objectId;
         }
 
-        // ===== persistentDataPath =====
         string dirPath = Path.Combine(
             Application.persistentDataPath,
             "Maps"
@@ -220,7 +219,7 @@ public class TilemapObjectExporterEditor : EditorWindow
             {
                 for (int x = 0; x < width; x++)
                 {
-                    writer.Write(grid[y, x]);
+                    writer.Write(grid[y, x]); // Int64
                 }
             }
         }
@@ -228,5 +227,4 @@ public class TilemapObjectExporterEditor : EditorWindow
         Debug.Log("Export BIN thành công");
         Debug.Log("Path: " + filePath);
     }
-
 }

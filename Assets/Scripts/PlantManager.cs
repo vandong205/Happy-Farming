@@ -1,36 +1,52 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
-public class PlantMangager : MonoBehaviour
+public class PlantMangager : SingletonPattern<PlantMangager>
 {
-    private Dictionary<int,Plant> plants = new Dictionary<int,Plant>();
-    private Plant GetPlant(int id)
+    private Dictionary<long, PlantRuntimeData> plants = new Dictionary<long, PlantRuntimeData>();
+    private PlantRuntimeData GetPlant(long id)
     {
-        if (plants.TryGetValue(id, out Plant plant))
+        if (plants.TryGetValue(id, out PlantRuntimeData plant))
         {
             return plant;
         }
         else return null;
     }
-    public Vector2 GetPlantPos(int id)
+    private void Update()
     {
-        Plant plant = GetPlant(id);
+        double now = GameTimer.Instance.CurrentTime;
+        foreach (PlantRuntimeData plant in plants.Values) { 
+            plant.TryGrow(now);
+        }
+    }
+    public Vector2 GetPlantPos(long id)
+    {
+        PlantRuntimeData plant = GetPlant(id);
         if (plant != null)
         {
             return plant.cellPos;
         }
         else return new  Vector2(-1, -1);
     }
-    public void GrowPlant(int id)
+    public void PlantTree(Vector3Int pos,int baseid)
     {
-        Plant plant = GetPlant(id);
-        if (plant != null)
+        PlantData plant = GameDatabase.Instance.PlantDB.GetPlant(baseid);
+        if (plant!=null)
         {
-            plant.GrowUp();
-        }
-    }
-    public void PlantTree(Vector2 cellPos,int baseid)
-    {
+            var plantobj = Instantiate(plant._prefab);
+            PlantRuntimeData runtimePlant = plantobj.GetComponent<PlantRuntimeData>();
+            if(runtimePlant == null)
+            {
+                NotificationManager.Instance.ShowPopUpNotify("Không tìm thấy PlantRuntimeData component, hủy trồng cây!", NotifyType.Error);
+                return;
+            }
+            long id = WorldManager.Instance.GenarateGlobalId();
+            plants.Add(id,runtimePlant);
+            WorldManager.Instance.SetMatrixTile(pos, id);
+            WorldManager.Instance.SetBaseMatrixTile(pos, plant.baseID);
+            plantobj.transform.position = WorldManager.Instance.CellPosToWorldCenter(pos);
+            NotificationManager.Instance.ShowPopUpNotify($"Da trong cay {plant.baseName} tai {pos}", NotifyType.Info);
 
+        }
     }
    
 }

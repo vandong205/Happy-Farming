@@ -45,11 +45,11 @@ TagManager:
   - name: Ground
     uniqueID: 1341420465
     locked: 0
-  - name: Entity
-    uniqueID: 2338493435
-    locked: 0
   - name: Object
     uniqueID: 211910709
+    locked: 0
+  - name: Entity
+    uniqueID: 2338493435
     locked: 0
   - name: VFX
     uniqueID: 2032368867

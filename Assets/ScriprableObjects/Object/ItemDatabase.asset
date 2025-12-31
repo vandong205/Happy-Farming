@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 659660adfe66cb544b183edc165739a8, type: 3}
-  m_Name: RedAppleTree
-  m_EditorClassIdentifier: Assembly-CSharp::PlantData
-  baseName: "C\xE2y t\xE1o \u0111\u1ECF"
-  baseID: 1
-  canGrow: 1
-  canPlantOnGrass: 1
-  maxStage: 4
+  m_Script: {fileID: 11500000, guid: c0e83e188ce2f1c4095d3a126b01e7cc, type: 3}
+  m_Name: ItemDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDatabase
+  items:
+  - {fileID: 11400000, guid: b1f44b19e27ef6e419271a4cadfa8376, type: 2}

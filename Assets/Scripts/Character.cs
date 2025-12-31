@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public class Character : MonoBehaviour
 {
@@ -10,7 +11,13 @@ public class Character : MonoBehaviour
     public enum CharacterState
     {
         Free,
-        Busy
+        Busy,
+    }
+    public enum ActionMode
+    {
+        None,
+        UseTool,
+        UseItem
     }
     #region Fields
     [SerializeField] InputActionAsset IAAsset;
@@ -18,25 +25,59 @@ public class Character : MonoBehaviour
     [SerializeField]  float stopDistance = 0.05f;
     [SerializeField] private float moveSpeed;
     [SerializeField] Animator animator;
+    [SerializeField] SpriteRenderer holdingItemSlot;
 
     private bool IsMoving = false;
     private InputAction moveAction;
     private Queue<Vector3Int> cellsActionQueue  =  new();
-
+    private ActionMode currentAction;
     private Coroutine moveRoutine;
-    private ToolNames selectedTool = ToolNames.Scythe;
+    private ToolNames selectedTool;
     public CharacterState state { get; private set; }
     public float speed {  get; private set; }
+    public int holdingItemId { get; private set; }
     #endregion
     #region Private Method
     private void Awake()
     {
         if(animator==null) animator = GetComponent<Animator>();
+        if (holdingItemSlot == null) GetComponentInChildren<SpriteRenderer>();
         moveAction = IAAsset
             .FindActionMap("Character")
             .FindAction("Move");
         moveAction.performed += Move;
-        
+        SelectTool(ToolNames.Scythe);
+    }
+    void HoldItem(int itemId)
+    {
+        if(state!=CharacterState.Free)
+        {
+            NotificationManager.Instance.ShowPopUpNotify("Nhân vật đang bận !", NotifyType.Warning);
+            return;
+        }
+        animator.SetBool("IsHoldingItem", true);
+        holdingItemId = itemId;
+        ItemData item  =GameDatabase.Instance.ItemDB.GetItem(holdingItemId);
+        if (item != null) {
+            holdingItemSlot.sprite = item.sprite;
+        }
+        currentAction = ActionMode.UseItem;
+    }
+
+    void SelectTool(ToolNames tool)
+    {
+        selectedTool = tool;
+        currentAction = ActionMode.UseTool;
+    }
+    void CancelAction()
+    {
+        cellsActionQueue.Clear();
+        currentAction = ActionMode.None;
+        state = CharacterState.Free;
+    }
+    public void SetFree()
+    {
+        state = CharacterState.Free;
     }
     private void OnEnable()
     {
@@ -49,7 +90,7 @@ public class Character : MonoBehaviour
     private void Move(InputAction.CallbackContext ctx)
     {
         if (state != CharacterState.Free) return;
-        while(cellsActionQueue.Count > 0) cellsActionQueue.Dequeue();
+        cellsActionQueue.Clear();
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
         Vector3 mouseWorldPos = followCamera.ScreenToWorldPoint(mouseScreenPos);
         mouseWorldPos.z = 0f;
@@ -109,20 +150,42 @@ public class Character : MonoBehaviour
     }
     private bool TryToDoAction()
     {
-       
         if (cellsActionQueue.Count == 0) return false;
-        Vector3Int cellpos = cellsActionQueue.Peek();
-        Vector2 cellpos2d = new Vector2(cellpos.x, cellpos.y);
-        int cellid = WorldManager.Instance.GetTileID(cellpos2d);
-        if (cellid == -1) return false;
-        if (!GameDatabase.Instance.ToolDB.CheckToolCanUseOn(selectedTool, cellid)) return false;
-        NotificationManager.Instance.ShowPopUpNotify($"Dang thuchien hanh dong voi cong cu {selectedTool}", NotifyType.Info);
-        return true;
+
+        Vector3Int cell = cellsActionQueue.Peek();
+        Vector2 cellPos = new Vector2(cell.x, cell.y);
+
+        int tileId = WorldManager.Instance.HasObjectOn(cellPos)?WorldManager.Instance.GetTileBaseId(cellPos):WorldManager.Instance.GetGroundTileId(cellPos);
+        NotificationManager.Instance.ShowPopUpNotify("Đang check thực hiện hành động trên ID " + tileId);
+        if (tileId == -1) return false;
+
+        if (currentAction == ActionMode.UseItem)
+        {
+            return GameDatabase.Instance.ItemDB
+                .CheckItemCanUseOn(holdingItemId, tileId);
+        }
+
+        if (currentAction == ActionMode.UseTool)
+        {
+            return GameDatabase.Instance.ToolDB
+                .CheckToolCanUseOn(selectedTool, tileId);
+        }
+        return false;
     }
+
     private void DoAction()
     {
         state = CharacterState.Busy;
-        switch (selectedTool) {
+
+        if (currentAction == ActionMode.UseItem)
+            DoPlaceItem();
+        else if (currentAction == ActionMode.UseTool)
+            DoToolAction();
+    }
+    private void DoToolAction()
+    {
+        switch (selectedTool)
+        {
             case ToolNames.Scythe:
                 DoScythe();
                 break;
@@ -134,27 +197,64 @@ public class Character : MonoBehaviour
                 break;
         }
     }
+
     private void DoAxe()
     {
         animator.SetTrigger("UseAxe");
         Debug.Log("Dang chat cay");
     }
+    private void DoPlaceItem()
+    {
+        Vector3Int pos = cellsActionQueue.Dequeue();
+        Vector2 cellPos = new Vector2(pos.x, pos.y);
+        bool noItem = (holdingItemId == -1);
+        int tileId = WorldManager.Instance.HasObjectOn(cellPos) ? WorldManager.Instance.GetTileBaseId(cellPos) : WorldManager.Instance.GetGroundTileId(cellPos);
+        bool itemCanNotUse = (!GameDatabase.Instance.ItemDB.CheckItemCanUseOn(holdingItemId, tileId));
+        ItemData item  = GameDatabase.Instance.ItemDB.GetItem(holdingItemId);
+        if (item == null || noItem || itemCanNotUse)
+        {
+            SetFree();
+            return;
+        }
+        switch (item.Type)
+        {
+            // hien tai chi plantseed==holdingItem moi == plantiD
+            case ItemType.PlantSeed:
+                PlantMangager.Instance.PlantTree(pos,holdingItemId);
+                holdingItemSlot.sprite = null;
+                break;
+        }
+        SetFree();
+        animator.SetBool("IsHoldingItem", false);
+        SelectTool(ToolNames.Scythe);
+    }
     private void DoScythe()
     {
         animator.SetTrigger("UseScythe");
-        Vector3Int cellpos = cellsActionQueue.Dequeue();
-        ParticleManager.Instance.PlayParticle(Particle.grass, WorldManager.Instance.CellPosToWorldCenter(cellpos));
-        WorldManager.Instance.SetTile(cellpos, 1);
-        selectedTool = ToolNames.WaterCan;
-        state = CharacterState.Free;
+        Vector3Int pos = cellsActionQueue.Dequeue();
+        Vector2 cellPos = new Vector2(pos.x, pos.y);
+        if (!WorldManager.Instance.HasObjectOn(cellPos))
+        {
+            NotificationManager.Instance.ShowPopUpNotify("Cắt cỏ",NotifyType.Info);
+            ParticleManager.Instance.PlayParticle(Particle.grass, WorldManager.Instance.CellPosToWorldCenter(pos));
+            WorldManager.Instance.SetMatrixTile(pos, 1, true);
+            WorldManager.Instance.SetBaseGroundTile(pos, 1);
+        }
+        else
+        {
+            NotificationManager.Instance.ShowPopUpNotify("Thu hoạch", NotifyType.Info);
+        }
+        SelectTool(ToolNames.WaterCan);
     }
     private void DoWatering()
     {
         animator.SetTrigger("UseWaterCan");
-        Vector3Int cellpos = cellsActionQueue.Dequeue();
-        WorldManager.Instance.SetTile(cellpos, 2);
-        
-        state = CharacterState.Free;
+        Vector3Int pos = cellsActionQueue.Dequeue();
+        WorldManager.Instance.SetMatrixTile(pos, 2,true);
+        WorldManager.Instance.SetBaseGroundTile(pos, 2);
+        selectedTool = ToolNames.Hand;
+        SetFree();
+        HoldItem(201);
     }
     private void SetMoveDirection(Vector3 from, Vector3 to)
     {

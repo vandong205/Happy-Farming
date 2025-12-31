@@ -5,6 +5,7 @@ public class GameDatabase : SingletonPattern<GameDatabase>
     [SerializeField] ToolDatabase toolDB;
     [SerializeField] PlantDatabase plantDB;
     [SerializeField] TileBaseDatabase tileDB;
+    [SerializeField] ItemDatabase itemDB;
     public ToolDatabase ToolDB
     {
         get { return toolDB; }
@@ -16,5 +17,9 @@ public class GameDatabase : SingletonPattern<GameDatabase>
     public TileBaseDatabase TileDB
     {
         get { return tileDB; }
+    }
+    public ItemDatabase ItemDB
+    {
+        get { return itemDB; }
     }
 }

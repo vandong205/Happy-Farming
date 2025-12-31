@@ -35,7 +35,8 @@ public class TileSelectEffect : MonoBehaviour
                 highlightInstance.SetActive(true);
                 highlightInstance.transform.position = tilemap.GetCellCenterWorld(cellPos);
                 Vector2 tilemappos = new Vector2(cellPos.x,cellPos.y);
-                NotificationManager.Instance.ShowPopUpNotify($"Đang click vào tileid {WorldManager.Instance.GetTileID(tilemappos)}", NotifyType.Info);
+                if (WorldManager.Instance.HasObjectOn(tilemappos)) NotificationManager.Instance.ShowPopUpNotify($"Đang click vào object có id {WorldManager.Instance.GetTileID(tilemappos)}",NotifyType.Info);
+                else NotificationManager.Instance.ShowPopUpNotify($"Đang click vào ô đất có id {WorldManager.Instance.GetTileGroundId(tilemappos)}", NotifyType.Info);
             }
             else
             {

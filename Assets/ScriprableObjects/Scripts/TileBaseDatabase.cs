@@ -7,7 +7,7 @@ public class TileBaseDatabase : ScriptableObject
 {
     public List<TileEntry> tiles = new();
 
-    private Dictionary<int, TileBase> dict = new();
+    private Dictionary<long, TileBase> dict = new();
 
     private void OnEnable()
     {
@@ -16,7 +16,7 @@ public class TileBaseDatabase : ScriptableObject
             dict[t.id] = t.tile;
     }
 
-    public TileBase Get(int id) => dict[id];
+    public TileBase Get(long id) => dict[id];
 }
 
 [System.Serializable]
