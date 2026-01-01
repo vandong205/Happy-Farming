@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659660adfe66cb544b183edc165739a8, type: 3}
+  m_Name: Eggplant
+  m_EditorClassIdentifier: Assembly-CSharp::PlantData
+  baseName: "C\xE0 t\xEDm"
+  baseID: 204
+  canGrow: 1
+  maxStage: 4
+  growTimePerStagePercentOfDay: 0.625
+  _prefab: {fileID: 6028085733479110689, guid: 7a3bacf638b120a428074a18a7824066, type: 3}
+  _stages:
+  - _stage: 1
+    _sprite: {fileID: 8761193796750372442, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}
+  - _stage: 2
+    _sprite: {fileID: 6760512655499572333, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}
+  - _stage: 3
+    _sprite: {fileID: -1414401220342530014, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}
+  - _stage: 4
+    _sprite: {fileID: 5265256098166310276, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}
+  _witheredStage:
+  - _stage: 2
+    _sprite: {fileID: 8696727781784020766, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}
+  - _stage: 3
+    _sprite: {fileID: 4271557529267270088, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}
+  - _stage: 4
+    _sprite: {fileID: -4554980931644691674, guid: 7fb9f664c6f09eb46849a2e8aa69a559, type: 3}

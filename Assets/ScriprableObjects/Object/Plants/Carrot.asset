@@ -16,7 +16,7 @@ MonoBehaviour:
   baseID: 201
   canGrow: 1
   maxStage: 4
-  growTimePerStage: 3
+  growTimePerStagePercentOfDay: 0.25
   _prefab: {fileID: 428145960390917122, guid: c856dbbeabf115145a9ccc049411ccd6, type: 3}
   _stages:
   - _stage: 1

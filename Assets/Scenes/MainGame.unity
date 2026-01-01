@@ -965,8 +965,9 @@ GameObject:
   m_Component:
   - component: {fileID: 619394802}
   - component: {fileID: 619394801}
+  - component: {fileID: 619394803}
   m_Layer: 0
-  m_Name: Global Light 2D
+  m_Name: WorldLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1039,6 +1040,117 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619394803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619394800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf376c1fa8814845a60247ccacd558e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  lightColorGradient:
+    serializedVersion: 2
+    key0: {r: 0.105882354, g: 0.12156863, b: 0.23137255, a: 1}
+    key1: {r: 0.1764706, g: 0.2, b: 0.36078432, a: 1}
+    key2: {r: 1, g: 0.7019608, b: 0.2784314, a: 0}
+    key3: {r: 1, g: 0.94509804, b: 0.75686276, a: 0}
+    key4: {r: 1, g: 1, b: 1, a: 0}
+    key5: {r: 1, g: 0.8784314, b: 0.6392157, a: 0}
+    key6: {r: 1, g: 0.61960787, b: 0.34117648, a: 0}
+    key7: {r: 0.105882354, g: 0.12156863, b: 0.23137255, a: 0}
+    ctime0: 0
+    ctime1: 11951
+    ctime2: 19044
+    ctime3: 26137
+    ctime4: 32768
+    ctime5: 45104
+    ctime6: 52505
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  lightIntensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.25
+      inSlope: 9.724198
+      outSlope: 9.724198
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.0712661
+      value: 0.9430057
+      inSlope: 5.2417846
+      outSlope: 5.2417846
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.13555785
+      value: 0.99182695
+      inSlope: -0.81169677
+      outSlope: -0.81169677
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3
+      value: 0.6
+      inSlope: -0.19138217
+      outSlope: -0.19138217
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0.24999994
+      outSlope: 0.24999994
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 0.7
+      inSlope: -1.4166667
+      outSlope: -1.4166667
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.3
+      inSlope: -1.3333333
+      outSlope: -1.3333333
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &846897640
 GameObject:
   m_ObjectHideFlags: 0
@@ -21760,7 +21872,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1956473861
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4723107735738678597, guid: b1910247afbb0e14597e973b6aef24c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

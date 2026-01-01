@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659660adfe66cb544b183edc165739a8, type: 3}
+  m_Name: Zucchini
+  m_EditorClassIdentifier: Assembly-CSharp::PlantData
+  baseName: "B\xED xanh"
+  baseID: 208
+  canGrow: 1
+  maxStage: 4
+  growTimePerStagePercentOfDay: 0.375
+  _prefab: {fileID: 2692507018434229055, guid: 84e0984f293ebbc4a943f2b509635210, type: 3}
+  _stages:
+  - _stage: 1
+    _sprite: {fileID: -8641028495422899391, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}
+  - _stage: 2
+    _sprite: {fileID: -2828644366924285527, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}
+  - _stage: 3
+    _sprite: {fileID: 6581891635543829462, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}
+  - _stage: 4
+    _sprite: {fileID: -5333421787200076931, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}
+  _witheredStage:
+  - _stage: 2
+    _sprite: {fileID: -2107463695032242375, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}
+  - _stage: 3
+    _sprite: {fileID: 9108758032056069328, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}
+  - _stage: 4
+    _sprite: {fileID: -7908169167485676945, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}

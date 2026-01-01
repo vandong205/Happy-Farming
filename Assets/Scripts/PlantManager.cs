@@ -13,9 +13,8 @@ public class PlantMangager : SingletonPattern<PlantMangager>
     }
     private void Update()
     {
-        double now = GameTimer.Instance.CurrentTime;
         foreach (PlantRuntimeData plant in plants.Values) { 
-            plant.TryGrow(now);
+            plant.TryGrow();
         }
     }
     public Vector2 GetPlantPos(long id)

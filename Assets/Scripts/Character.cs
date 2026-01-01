@@ -254,7 +254,7 @@ public class Character : MonoBehaviour
         WorldManager.Instance.SetBaseGroundTile(pos, 2);
         selectedTool = ToolNames.Hand;
         SetFree();
-        HoldItem(201);
+        HoldItem(206);
     }
     private void SetMoveDirection(Vector3 from, Vector3 to)
     {

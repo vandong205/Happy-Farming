@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccd4d329565932d4c887a92f8a01c99c, type: 3}
-  m_Name: CarrotBag
-  m_EditorClassIdentifier: Assembly-CSharp::Item
-  baseID: 201
-  Name: "Gi\u1ED1ng c\xE0 r\u1ED1t"
+  m_Name: ZucchiniBag
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  baseID: 208
+  Name: "Gi\u1ED1ng b\xED xanh"
   Type: 0
   canUseOnBlockIds: 0100000002000000
   durability: -1
   cost: 2
-  sprite: {fileID: -830467699528618894, guid: 3816ff27fb4f1d24e939bc0f4516b4af, type: 3}
+  sprite: {fileID: -4300462857986946869, guid: 8b9774298357d054ca934dfdcbf310dd, type: 3}

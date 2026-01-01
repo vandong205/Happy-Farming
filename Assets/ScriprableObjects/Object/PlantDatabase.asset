@@ -14,3 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlantDatabase
   plantDatas:
   - {fileID: 11400000, guid: b607632f0c36db749956129a7688bbaa, type: 2}
+  - {fileID: 11400000, guid: 45a6c392a20d33a409a646d6fa27b3f0, type: 2}
+  - {fileID: 11400000, guid: 7005763d87f4c9d4cb55be9e1641f915, type: 2}
+  - {fileID: 11400000, guid: 37f8a7c30482b7f46a032455c9a71cb5, type: 2}
+  - {fileID: 11400000, guid: ffa3bda9dc6c8b144aa823374ded80f6, type: 2}
+  - {fileID: 11400000, guid: 3874fc73cf08ddc4aa52bec0ceeb8d3e, type: 2}
+  - {fileID: 11400000, guid: e3c74266d37f1a04ba8f124a057ec357, type: 2}
+  - {fileID: 11400000, guid: c606b944e93af30499660df843b1a06e, type: 2}
