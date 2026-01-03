@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlantData
   baseName: "Khoai t\xE2y"
   baseID: 205
+  harvestId: 305
   canGrow: 1
   maxStage: 4
   growTimePerStagePercentOfDay: 0.375
-  _prefab: {fileID: 296312939933170575, guid: 8e3923abd5a22154491314f9db6db0b4, type: 3}
   _stages:
   - _stage: 1
     _sprite: {fileID: -2491710858056914576, guid: ddd9de577f222dc4d93cbad3fff1509d, type: 3}

@@ -236,13 +236,45 @@ public class Character : MonoBehaviour
         if (!WorldManager.Instance.HasObjectOn(cellPos))
         {
             NotificationManager.Instance.ShowPopUpNotify("Cắt cỏ",NotifyType.Info);
-            ParticleManager.Instance.PlayParticle(Particle.grass, WorldManager.Instance.CellPosToWorldCenter(pos));
+            ParticleManager.Instance.PlayOneShotParticle(Particle.grass, WorldManager.Instance.CellPosToWorldCenter(pos));
             WorldManager.Instance.SetMatrixTile(pos, 1, true);
             WorldManager.Instance.SetBaseGroundTile(pos, 1);
         }
         else
         {
-            NotificationManager.Instance.ShowPopUpNotify("Thu hoạch", NotifyType.Info);
+            int objectBaseId = WorldManager.Instance.GetTileBaseId(cellPos);
+            ObjectType objectType = ObjectInfo.GetTypeById(objectBaseId);
+            if (objectType == ObjectType.crop)
+            {
+                PlantRuntimeData plant = PlantMangager.Instance.GetPlant(WorldManager.Instance.GetTileID(cellPos));
+                if(plant==null)
+                {
+                    Debug.LogError("Loi tim cay trong PlantManager");
+                    return;
+                }
+                if (plant.currentStage != plant.maxStage)
+                {
+                    NotificationManager.Instance.ShowPopUpNotify("Cây chưa đủ lớn để thu hoạch");
+                    return;
+                }
+                // Neu chua bi heo log thong bao , neu heo roi thi huy cay
+                if (!plant.witherd)
+                {
+                    NotificationManager.Instance.ShowPopUpNotify("Đã thu hoạch cây " + plant.baseName, NotifyType.Info);
+                    int havestId = plant.havestId;
+                    ItemData havestItem = GameDatabase.Instance.ItemDB.GetItem(havestId);
+                    if (havestItem == null)
+                    {
+                        Debug.LogError("Loi tim item thu hoach trong GameDB");
+                        return;
+                    }
+                    ParticleManager.Instance.PlayCropPartical(havestItem.sprite, WorldManager.Instance.CellPosToWorldCenter(pos));
+                }
+                // Huy object tren ma tran
+                Destroy(plant.gameObject);
+                WorldManager.Instance.SetBaseMatrixTile(pos, -1);
+            }
+            
         }
         SelectTool(ToolNames.WaterCan);
     }
@@ -254,7 +286,7 @@ public class Character : MonoBehaviour
         WorldManager.Instance.SetBaseGroundTile(pos, 2);
         selectedTool = ToolNames.Hand;
         SetFree();
-        HoldItem(206);
+        HoldItem(201);
     }
     private void SetMoveDirection(Vector3 from, Vector3 to)
     {

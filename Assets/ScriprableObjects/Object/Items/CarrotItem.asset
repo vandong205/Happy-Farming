@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd4d329565932d4c887a92f8a01c99c, type: 3}
+  m_Name: CarrotItem
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  baseID: 301
+  Name: "C\u1EE7 c\xE0 r\u1ED1t"
+  Type: 0
+  canUseOnBlockIds: 
+  durability: 0
+  cost: 0
+  sprite: {fileID: -5859083586626064994, guid: 3816ff27fb4f1d24e939bc0f4516b4af, type: 3}

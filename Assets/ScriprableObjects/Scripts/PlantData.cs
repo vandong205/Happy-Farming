@@ -12,10 +12,10 @@ public class PlantData : ScriptableObject
     }
     public string baseName;
     public int baseID;
+    public int harvestId;
     public bool canGrow;
     public int maxStage;
     public double growTimePerStagePercentOfDay;
-    public GameObject _prefab;
     public List<PlantStage> _stages = new List<PlantStage> ();
     public List<PlantStage> _witheredStage = new List<PlantStage>();
 }

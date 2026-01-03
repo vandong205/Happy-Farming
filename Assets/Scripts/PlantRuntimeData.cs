@@ -3,15 +3,17 @@
 public class PlantRuntimeData : MonoBehaviour
 {
     [SerializeField] SpriteRenderer _render;
-    [SerializeField] int baseID;
+    private int baseID;
 
     public Vector2 cellPos { get; private set; }
     public string baseName { get; private set; }
+    public int havestId { get; private set; }
     public int ID { get; private set; }
     public bool canGrow { get; private set; }
     public int currentStage { get; private set; }
     public int maxStage { get; private set; }
     public bool witherd { get; private set; }
+
 
     // 👉 GIÂY GAME
     public double nextGrowTime { get; private set; }
@@ -19,27 +21,20 @@ public class PlantRuntimeData : MonoBehaviour
 
     private PlantData _data;
 
-    private void Awake()
+    public void Init(PlantData data)
     {
-        if (_render == null)
+        _data = data;
             _render = GetComponent<SpriteRenderer>();
-
-        if (GameDatabase.Instance == null) return;
-
-        _data = GameDatabase.Instance.PlantDB.GetPlant(baseID);
-        if (_data == null) return;
-
         Vector3Int pos =
             WorldManager.Instance.WorldPosToCellPos(transform.position);
-
         cellPos = new Vector2(pos.x, pos.y);
-        baseName = _data.baseName;
-        canGrow = _data.canGrow;
+        baseName = data.baseName;
+        canGrow = data.canGrow;
         currentStage = 1;
-        maxStage = _data.maxStage;
+        maxStage = data.maxStage;
         witherd = false;
-
-        _render.sprite = _data._stages[currentStage - 1]._sprite;
+        havestId = data.harvestId;
+        _render.sprite = data._stages[currentStage - 1]._sprite;
         lastUpdateTime = GameTimer.Instance.GameTimeSeconds;
         ScheduleNextGrow();
     }

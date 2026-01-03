@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlantData
   baseName: "C\xE0 chua"
   baseID: 207
+  harvestId: 307
   canGrow: 1
   maxStage: 4
   growTimePerStagePercentOfDay: 0.5
-  _prefab: {fileID: 1662555241135694352, guid: 38321ba81dd20034790443d70b545946, type: 3}
   _stages:
   - _stage: 1
     _sprite: {fileID: 3336444044123149764, guid: dc092d77ebca6d147b56e994b9c35604, type: 3}

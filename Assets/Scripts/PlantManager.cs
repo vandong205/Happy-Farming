@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 public class PlantMangager : SingletonPattern<PlantMangager>
 {
+    [SerializeField] GameObject _cropPrefab;
     private Dictionary<long, PlantRuntimeData> plants = new Dictionary<long, PlantRuntimeData>();
-    private PlantRuntimeData GetPlant(long id)
+    public PlantRuntimeData GetPlant(long id)
     {
         if (plants.TryGetValue(id, out PlantRuntimeData plant))
         {
@@ -31,13 +32,14 @@ public class PlantMangager : SingletonPattern<PlantMangager>
         PlantData plant = GameDatabase.Instance.PlantDB.GetPlant(baseid);
         if (plant!=null)
         {
-            var plantobj = Instantiate(plant._prefab);
+            var plantobj = Instantiate(_cropPrefab);
             PlantRuntimeData runtimePlant = plantobj.GetComponent<PlantRuntimeData>();
             if(runtimePlant == null)
             {
                 NotificationManager.Instance.ShowPopUpNotify("Không tìm thấy PlantRuntimeData component, hủy trồng cây!", NotifyType.Error);
                 return;
             }
+            runtimePlant.Init(plant);
             long id = WorldManager.Instance.GenarateGlobalId();
             plants.Add(id,runtimePlant);
             WorldManager.Instance.SetMatrixTile(pos, id);
