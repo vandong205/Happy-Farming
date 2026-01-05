@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static UnityEditor.PlayerSettings;
 
 public class Character : MonoBehaviour
 {
-    
     public enum CharacterState
     {
         Free,
@@ -36,6 +36,7 @@ public class Character : MonoBehaviour
     public CharacterState state { get; private set; }
     public float speed {  get; private set; }
     public int holdingItemId { get; private set; }
+    bool pointerOverUI;
     #endregion
     #region Private Method
     private void Awake()
@@ -47,6 +48,13 @@ public class Character : MonoBehaviour
             .FindAction("Move");
         moveAction.performed += Move;
         SelectTool(ToolNames.Scythe);
+    }
+
+    void Update()
+    {
+        if (EventSystem.current == null) return;
+
+        pointerOverUI = EventSystem.current.IsPointerOverGameObject();
     }
     void HoldItem(int itemId)
     {
@@ -89,6 +97,8 @@ public class Character : MonoBehaviour
     }
     private void Move(InputAction.CallbackContext ctx)
     {
+
+        if (pointerOverUI) return;
         if (state != CharacterState.Free) return;
         cellsActionQueue.Clear();
         Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
